@@ -1,7 +1,7 @@
 "use client"
 import { Box, Stack, Typography, Button, Modal, TextField } from "@mui/material";
 import { firestore } from "@/firebase";
-import { collection, getDoc, getDocs, query, setDoc,doc } from "firebase/firestore";
+import { collection, getDoc, getDocs, query, setDoc,doc, deleteDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 const style = {
@@ -17,73 +17,6 @@ const style = {
   gap: 3,
 };
 
-const item = [
-  "Rice",
-  "Quinoa",
-  "Pasta",
-  "Couscous",
-  "Oats",
-  "Canned tomatoes",
-  "Canned beans",
-  "Canned vegetables",
-  "Canned fruit",
-  "Canned tuna",
-  "Beef Broth",
-  "Flour",
-  "Sugar",
-  "Baking powder",
-  "Baking soda",
-  "Yeast",
-  "Cornstarch",
-  "Cocoa powder",
-  "Olive oil",
-  "Vegetable oil",
-  "Coconut oil",
-  "Sesame oil",
-  "Apple cider vinegar",
-  "White vinegar",
-  "Balsamic vinegar",
-  "Salt",
-  "Black pepper",
-  "Garlic powder",
-  "Onion powder",
-  "Paprika",
-  "Chili powder",
-  "Cumin",
-  "Oregano",
-  "Basil",
-  "Thyme",
-  "Cinnamon",
-  "Nutmeg",
-  "Bay leaves",
-  "Soy sauce",
-  "Worcestershire sauce",
-  "Hot sauce",
-  "Mustard",
-  "Ketchup",
-  "Mayonnaise",
-  "Barbecue sauce",
-  "Honey",
-  "Maple syrup",
-  "Peanut butter",
-  "Jam",
-  "Crackers",
-  "Popcorn kernels",
-  "Nuts",
-  "Dried fruit",
-  "Granola bars",
-  "Lentils",
-  "Split peas",
-  "Dried beans",
-  "Dried pasta",
-  "Tea bags",
-  "Coffee",
-  "Cereal",
-  "Bread crumbs",
-  "Powdered milk",
-  "Instant mashed potatoes"
-]
-
 export default function Home() {
   const [pantry, setPantry] = useState([])
 
@@ -98,7 +31,7 @@ export default function Home() {
     const docs = await getDocs(snapshots) 
     const pantryList = []
     docs.forEach((doc) => {
-      pantryList.push(doc.id)
+      pantryList.push({name: doc.id, ...doc.data()})
     })
     console.log(pantryList)
     setPantry(pantryList)
@@ -110,8 +43,29 @@ export default function Home() {
 
 const addItem = async (item) => {
   const docRef = doc(collection(firestore,'pantry'),item)
-  await setDoc(docRef, {})
-  updatePantry()
+  //Check if exists
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    const {count} = docSnap.data()
+    await setDoc(docRef, {count: count + 1})
+  } else {
+    await setDoc(docRef, {count: 1})
+  }
+  await updatePantry()
+}
+
+const removeItem = async (item) => {
+  const docRef = doc(collection(firestore,'pantry'),item)
+  const docSnap = await getDoc(docRef)
+  if(docSnap.exists()) {
+    const {count} = docSnap.data()
+    if(count == 1) {
+      await deleteDoc(docRef)
+    } else {
+      await setDoc(docRef, {count: count - 1})
+    }
+  }
+  await updatePantry()
 }
 
   return <Box
@@ -152,25 +106,30 @@ const addItem = async (item) => {
         </Typography>
       </Box>
       <Stack width="800px" height="500px" spacing={2} overflow={'auto'}>
-        {pantry.map((i) => (
-          <Box
-            key={i}
-            width="100%"
-            minHeight="150px"
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            bgcolor={'#f0f0f0'}
-          >
-            <Typography 
-              variant="h3"
-              color={'#333'}
-              textAlign={'center'}
+        {pantry.map(({name, count}) => (
+            <Box
+              key={name}
+              width="100%"
+              minHeight="150px"
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              bgcolor={'#f0f0f0'}
+              paddingX={5}
             >
-              {
-                i.charAt(0).toUpperCase() + i.slice(1)
-              }
-            </Typography>
+              <Typography 
+                variant="h3"
+                color={'#333'}
+                textAlign={'center'}
+              >
+                {
+                  name.charAt(0).toUpperCase() + name.slice(1)
+                }
+              </Typography>
+              <Typography variant="h3" color={'#333'} textAlign={'center'}>
+                Quantity: {count}
+              </Typography>
+            <Button variant="contained" onClick={() => removeItem(name)}>Remove</Button>
           </Box>
         ))}
       </Stack>
