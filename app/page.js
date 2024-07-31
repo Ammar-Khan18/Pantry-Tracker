@@ -4,6 +4,8 @@ import { firestore } from "@/firebase";
 import { collection, getDoc, getDocs, query, setDoc,doc, deleteDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import InventoryIcon from '@mui/icons-material/Inventory';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const style = {
   position: 'absolute',
@@ -117,21 +119,26 @@ const removeItem = async (item) => {
                 alignItems={"center"}
                 bgcolor={'#f0f0f0'}
                 paddingX={5}>
-                <Typography 
-                  variant="h3"
-                  color={'#333'}
-                  textAlign={'center'}>
-                  {
-                    name.charAt(0).toUpperCase() + name.slice(1)
-                  }
-                </Typography>
-                <Typography variant="h3" color={'#333'} textAlign={'center'}>
-                  Quantity: {count}
-                </Typography>
-              <Stack direction={'row'} spacing={2}>
-                <Button variant="contained" onClick={() => addItem(name)}>Add</Button>
-                <Button variant="contained" onClick={() => removeItem(name)}>Remove</Button>
-              </Stack>
+                <Typography variant="h6">{name}</Typography>
+                  <Box display="flex" alignItems="center">
+                    <IconButton
+                      color="primary"
+                      onClick={() => addItem(name)}
+                      sx={{ mx: 1 }}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                    <Typography variant="body1" sx={{ mx: 2 }}>
+                      {count}
+                    </Typography>
+                    <IconButton
+                      color="secondary"
+                      onClick={() => removeItem(name)}
+                      sx={{ mx: 1 }}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                  </Box>
             </Box>
           ))}
         </Stack>
