@@ -68,7 +68,7 @@ const removeItem = async (item) => {
   await updatePantry()
 }
 
-  return <Box
+  return( <Box
   width="100vw"
   height="100vh"
   display={"flex"}
@@ -115,13 +115,11 @@ const removeItem = async (item) => {
               justifyContent={"space-between"}
               alignItems={"center"}
               bgcolor={'#f0f0f0'}
-              paddingX={5}
-            >
+              paddingX={5}>
               <Typography 
                 variant="h3"
                 color={'#333'}
-                textAlign={'center'}
-              >
+                textAlign={'center'}>
                 {
                   name.charAt(0).toUpperCase() + name.slice(1)
                 }
@@ -129,10 +127,14 @@ const removeItem = async (item) => {
               <Typography variant="h3" color={'#333'} textAlign={'center'}>
                 Quantity: {count}
               </Typography>
-            <Button variant="contained" onClick={() => removeItem(name)}>Remove</Button>
+            <Stack direction={'row'} spacing={2}>
+              <Button variant="contained" onClick={() => addItem(name)}>Add</Button>
+              <Button variant="contained" onClick={() => removeItem(name)}>Remove</Button>
+            </Stack>
           </Box>
         ))}
       </Stack>
     </Box>
   </Box>
+  )
 }
