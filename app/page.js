@@ -119,7 +119,7 @@ const removeItem = async (item) => {
                 alignItems={"center"}
                 bgcolor={'#f0f0f0'}
                 paddingX={5}>
-                <Typography variant="h6">{name}</Typography>
+                <Typography variant="h6">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
                   <Box display="flex" alignItems="center">
                     <IconButton
                       color="primary"
