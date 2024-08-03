@@ -82,7 +82,7 @@ const SignUpPage = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}> 
       <CssBaseline />
       <AppBar position="static" color="primary" elevation={'0'}>
         <Toolbar>

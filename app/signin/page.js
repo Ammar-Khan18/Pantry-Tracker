@@ -87,7 +87,7 @@ const SignInPage = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="xs">
+      <Container maxWidth="xs"> 
         <Box
           display="flex"
           flexDirection="column"

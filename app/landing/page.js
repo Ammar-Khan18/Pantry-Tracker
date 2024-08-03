@@ -61,7 +61,7 @@ const LandingPage = () => {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            minHeight="70vh"
+            minHeight="70vh" 
             textAlign="center"
           >
             <Typography variant="h3" component="h1" gutterBottom>
