@@ -157,6 +157,10 @@ const removeItem = async (item) => {
     }
 }
 
+const ToHome = () => {
+  router.push('/')
+}
+
   return(
     <ThemeProvider theme={theme}>
       {/*Header*/}
@@ -164,7 +168,7 @@ const removeItem = async (item) => {
         <HeaderContent maxWidth='2000'>
           <InventoryIcon sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Pantry Buddy
+            <a href="/" onClick={ToHome} style={{ color: 'white', textDecoration: 'none' }}>Pantry Buddy</a>
           </Typography>
         </HeaderContent>
       </Header>
