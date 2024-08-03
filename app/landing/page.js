@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Box, Button, Container, Typography, AppBar, Toolbar, CssBaseline, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import { GitHub, LinkedIn, Public } from '@mui/icons-material';
 
 const theme = createTheme({
   palette: {
@@ -76,7 +77,17 @@ const LandingPage = () => {
               Get Started
             </Button>
           </Box>
-  
+          <Box display="flex" flexDirection="row" justifyContent="center" alignItems="center" mt={2} mb={2}>
+          <a href="https://ammar-khan18.github.io/Portfolio-Website/" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.secondary.main, textDecoration: 'none', margin: '0 1rem' }}>
+            <Public />
+          </a>
+          <a href="https://github.com/Ammar-Khan18" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.secondary.main, textDecoration: 'none', margin: '0 1rem' }}>
+            <GitHub />
+          </a>
+          <a href="https://www.linkedin.com/in/ammarbinaamirkhan/" target="_blank" rel="noopener noreferrer" style={{ color: theme.palette.secondary.main, textDecoration: 'none', margin: '0 1rem' }}>
+            <LinkedIn />
+          </a>
+        </Box>
       </Container>
     </ThemeProvider>
   );

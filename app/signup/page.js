@@ -77,6 +77,10 @@ const SignUpPage = () => {
     router.push('/signin');
   };
 
+  const ToHome = () => {
+    router.push('/')
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -84,7 +88,7 @@ const SignUpPage = () => {
         <Toolbar>
           <InventoryIcon sx={{ color: '#FFFFFF', mr: 2 }} />
           <Typography variant="h6" color="inherit">
-            Pantry Buddy
+            <a href="/" onClick={ToHome} style={{ color: 'white', textDecoration: 'none' }}>Pantry Buddy</a>
           </Typography>
         </Toolbar>
       </AppBar>
