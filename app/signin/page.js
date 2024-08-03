@@ -6,22 +6,34 @@ import { Box, Button, Container, Typography, TextField, AppBar, Toolbar, CssBase
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#000000',
+      main: '#16213e', // Dark blue/purple
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#e5e7eb',
+      main: '#e94560', // Red
     },
     background: {
-      default: '#000000',
+      default: '#16213e', // Dark blue/purple background
     },
     text: {
-      primary: '#ffffff',
-      secondary: '#e5e7eb',
+      primary: '#ffffff', // White text
+      secondary: '#e94560', // Red text
+    },
+  },
+  typography: {
+    h3: {
+      fontWeight: 700,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+    body1: {
+      fontWeight: 300,
     },
   },
 });
@@ -63,10 +75,11 @@ const SignInPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="static" color="primary">
+      <AppBar position="static" color="primary" elevation={'0'}>
         <Toolbar>
+          <InventoryIcon sx={{ color: '#FFFFFF', mr: 2 }} />
           <Typography variant="h6" color="inherit">
-            Pantry Pal
+            Pantry Buddy
           </Typography>
         </Toolbar>
       </AppBar>

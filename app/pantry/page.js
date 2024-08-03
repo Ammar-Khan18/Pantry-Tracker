@@ -32,30 +32,36 @@ const style = {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#d5d5d6',
+      main: '#16213e', // Dark blue/purple
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#FF0000',
+      main: '#e94560', // Red
     },
-    error: {
-      main: '#dc2626',
+    background: {
+      default: '#16213e', // Dark blue/purple background
+    },
+    text: {
+      primary: '#ffffff', // White text
+      secondary: '#e94560', // Red text
     },
   },
-  components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          borderRadius: '4px',
-        },
-      },
+  typography: {
+    h3: {
+      fontWeight: 700,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+    body1: {
+      fontWeight: 300,
     },
   },
 });
 
 const Header = styled(Box)(({ theme }) => ({
-  backgroundColor: '#e6e6e6',
-  color: '#000000',
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
   padding: theme.spacing(1, 2),
   position: 'relative',
   width: '100%',
@@ -104,7 +110,7 @@ const Page = () => {
 
   const updatePantry = async () => {
     if(userUid) {
-    const snapshots = collection(firestore, 'pantry${userUid}')
+    const snapshots = collection(firestore, `pantry-${userUid}`)
     const docs = await getDocs(snapshots) 
     const pantryList = []
     docs.forEach((doc) => {
@@ -122,7 +128,7 @@ const Page = () => {
 
 const addItem = async (item) => {
   if(userUid) {
-      const docRef = doc(firestore,'pantry${userUid}',item)
+      const docRef = doc(firestore,`pantry-${userUid}`,item)
       //Check if exists
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
@@ -137,7 +143,7 @@ const addItem = async (item) => {
 
 const removeItem = async (item) => {
     if(userUid) {
-  const docRef = doc(firestore,'pantry${userUid}',item)
+  const docRef = doc(firestore,`pantry-${userUid}`,item)
   const docSnap = await getDoc(docRef)
   if(docSnap.exists()) {
     const {count} = docSnap.data()
@@ -162,14 +168,14 @@ const removeItem = async (item) => {
           </Typography>
         </HeaderContent>
       </Header>
-      <Box width="100vw" height="100vh" display={"flex"} justifyContent={"center"} flexDirection={"column"} alignItems={"center"} bgcolor={'#3d3d43'}>
+      <Box width="100vw" height="100vh" display={"flex"} justifyContent={"center"} flexDirection={"column"} alignItems={"center"} backgroundColor={'#16213e'}>
         <Box display={'flex'} flexDirection={{xs:'row', md:'column'}} gap={2}>
           {/*Input Field for items*/}
-          <Card borderradius={4} boxShadow={'0 4px 8px rgba(0,0,0,0.1)'} sx={{bgcolor: '#e6e6e6'}}>
+          <Card borderradius={4} boxShadow={'0 4px 8px rgba(0,0,0,0.1)'} sx={{bgcolor: '#2D2D2D'}}>
             <CardContent>
               <Stack width="100%" direction={'row'} spacing={2}>
               <TextField label="Enter Item Name" variant="outlined" fullWidth value={itemName} onChange={(e) => setItemName(e.target.value)}/>
-              <Button variant="contained" sx={{backgroundColor: '#d5d5d6', color: '#000000'}}
+              <Button variant="contained" color='secondary' sx={{color: '#000000'}}
               onClick={() => {
                 addItem(itemName) 
                 setItemName('')
@@ -179,7 +185,7 @@ const removeItem = async (item) => {
             </CardContent> 
           </Card>
           {/*Pantry Items Display*/}
-          <Card borderradius={4} boxShadow={'0 4px 8px rgba(0,0,0,0.1)'} sx={{bgcolor: '#e6e6e6'}}>
+          <Card borderradius={4} boxShadow={'0 4px 8px rgba(0,0,0,0.1)'} sx={{bgcolor: '#2D2D2D'}}>
             <CardContent>
               <Box width="800px" height="85px" bgcolor={'#0f0f10'} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                 <Typography variant={'h2'} color={'#ffffff'} textAlign={'center'}>
@@ -188,7 +194,7 @@ const removeItem = async (item) => {
               </Box>
               <Stack width="800px" height="500px" spacing={2} overflow={'auto'}>
                 {pantry.map(({name, count}) => (
-                    <Box key={name} width="100%" minHeight="40px" display={"flex"} justifyContent={"space-between"} alignItems={"center"} bgcolor={'#e6e6e6'} color={'#000000'} paddingX={5}>
+                    <Box key={name} width="100%" minHeight="40px" display={"flex"} justifyContent={"space-between"} alignItems={"center"} bgcolor={'#2D2D2D'} color={'#ffffff'} paddingX={5}>
                       <Typography variant="h6">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
                       <Box display="flex" alignItems="center">
                         <IconButton onClick={() => addItem(name)} sx={{ mx: 1, color: '#008000' }}>
@@ -207,9 +213,9 @@ const removeItem = async (item) => {
         </Box>
       </Box>
       {/*Footer*/}
-      <Box sx={{backgroundColor: '#3d3d43', color: '#000000', spacing: 2, bottom: 0, width: '100%'}} padding={2}>
+      <Box sx={{backgroundColor: '#16213e', color: '#000000', spacing: 2, bottom: 0, width: '100%'}} padding={2}>
         <Typography variant="h6" textAlign={'left'}> © Pantry Buddy 2024 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .Made by Ammar Khan</Typography>
-        <Box sx={{backgroundColor: '#3d3d43', color: '#000000', bottom: 0, width: '100%'}} padding={2} justifyContent={'center'} display={'flex'}>
+        <Box sx={{backgroundColor: '#16213e', color: '#000000', bottom: 0, width: '100%'}} padding={2} justifyContent={'center'} display={'flex'}>
             <a href="https://github.com/Ammar-Khan18" style={{ display: 'flex', alignItems: 'center', color: 'inherit', textDecoration: 'none' }}>
               <GitHubIcon />
             </a>
