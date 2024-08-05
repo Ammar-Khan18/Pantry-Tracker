@@ -10,6 +10,6 @@ Pantry Buddy is a pantry tracking application that helps users manage their pant
 - Authentication: Firebase Authentication
 - Deployment: Vercel
 ## How to Use
-1. Visit the PantryPal website: https://pantry-tracker-chi.vercel.app/
+1. Visit the Pantry Buddy website: https://pantry-tracker-chi.vercel.app/
 2. Sign up or log in to your account.
 3. Start adding items to your pantry.
